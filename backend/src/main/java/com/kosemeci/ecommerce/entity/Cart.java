@@ -29,6 +29,8 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+    //Bu, Cart nesnesi üzerinde yapılan işlemlerin (persist, remove, update vs.) otomatik olarak CartItem'lara da uygulanmasını sağlar.
+    //Eğer Cart içindeki bir CartItem listeden çıkarılırsa ve başka bir yere bağlı değilse, veritabanından tamamen silinir.
     private Set<CartItem> cartItems= new HashSet<>();
 
     private double totalSellingPrice;
