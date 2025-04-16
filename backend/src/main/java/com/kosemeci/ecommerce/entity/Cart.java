@@ -1,14 +1,15 @@
 package com.kosemeci.ecommerce.entity;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,20 +20,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Coupon {
-
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String code;
-    private double minimumOrderValue;
-    private double discountPercentage;
-    private LocalDate validityStartDate;
-    private LocalDate validityEndDate;
-    private boolean isActive = true;
+    @OneToOne
+    private User user;
 
-    @ManyToMany(mappedBy = "usedCoupons") // ilişkiyi user yönetiyor
-    private Set<User> usedByUsers = new HashSet<>();
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<CartItem> cartItems= new HashSet<>();
+
+    private double totalSellingPrice;
+    private int totalItem;
+    private int totalMrpPrice;
+    private int discount;
+    private String couponCode;
 
 }

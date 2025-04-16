@@ -47,6 +47,6 @@ public class User {
 
     @ManyToMany
     @JsonIgnore //Bir alanı JSON çıktısından tamamen gizlemek için kullanılır.
-    private Set<Coupon> coupons = new HashSet<>();
+    private Set<Coupon> usedCoupons= new HashSet<>();
 
 }
