@@ -7,5 +7,4 @@ public enum AccountStatus {
     DEACTIVATED,
     BANNED,
     CLOSED
-
 }
