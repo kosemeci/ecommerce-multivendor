@@ -1,5 +1,6 @@
 package com.kosemeci.ecommerce.entity;
 
+import com.kosemeci.ecommerce.domain.AccountStatus;
 import com.kosemeci.ecommerce.domain.USER_ROLE;
 
 import jakarta.persistence.CascadeType;

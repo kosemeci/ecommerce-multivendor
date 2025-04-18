@@ -1,4 +1,4 @@
-package com.kosemeci.ecommerce.entity;
+package com.kosemeci.ecommerce.domain;
 
 public enum AccountStatus {
     PENDING_VERIFICATION,
