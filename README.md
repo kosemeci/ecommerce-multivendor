@@ -2,6 +2,7 @@
 Bu yapı, çok satıcılı bir e-ticaret platformunun temel veri modelini tanımlar.
 
 👤 User (Müşteri)
+
 fullname: Ad Soyad
 
 mail: E-posta
@@ -17,6 +18,7 @@ address: Kullanıcının adresleri (OneToMany)
 usedCoupons: Kullanıcının kullandığı kuponlar (ManyToMany)
 
 🧑‍💼 Seller (Satıcı)
+
 sellername: Satıcı adı
 
 mobile: Telefon numarası
@@ -38,6 +40,7 @@ role: Rol bilgisi
 accountStatus: Hesap durumu (örneğin: aktif, askıda vb.)
 
 🏠 Address (Adres)
+
 name: Alıcı adı
 
 plocality: Mahalle / bölge
@@ -53,6 +56,7 @@ pinCode: Posta kodu
 mobile: Telefon numarası
 
 📦 Product (Ürün)
+
 title: Ürün başlığı
 
 description: Açıklama
@@ -82,6 +86,7 @@ seller: Satıcı (ManyToOne)
 reviews: Yorumlar (OneToMany, Liste)
 
 🗂️ Category (Kategori)
+
 name: Kategori adı
 
 categoryId: Benzersiz kategori kimliği
@@ -91,6 +96,7 @@ parentCategory: Üst kategori (ManyToOne)
 level: Seviye (Ana kategori veya Alt kategori)
 
 🎟️ Coupon (Kupon)
+
 code: Kupon kodu
 
 minimumOrderValue: Minimum sipariş tutarı
@@ -106,6 +112,7 @@ isActive: Kupon aktif mi? (Varsayılan: true)
 usedByUsers: Kuponu kullanan kullanıcılar (ManyToMany, mappedBy = "usedCoupons")
 
 📦 Order (Sipariş)
+
 orderId: Sipariş numarası
 
 user: Siparişi veren kullanıcı (ManyToOne)
@@ -133,6 +140,7 @@ orderDate: Sipariş tarihi
 deliverDate: Teslim tarihi
 
 💳 Transaction (İşlem)
+
 customer: İşlemi yapan kullanıcı (ManyToOne)
 
 order: İlgili sipariş (OneToOne)
