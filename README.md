@@ -1,4 +1,5 @@
 🛒 Ecommerce Multivendor - Entity Yapısı
+
 Bu yapı, çok satıcılı bir e-ticaret platformunun temel veri modelini tanımlar.
 
 👤 **User (Müşteri)**
