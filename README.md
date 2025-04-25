@@ -12,16 +12,16 @@ Ecommerce Multivendor
   *usedCoupons(ManyToMany)
   
 -**Seller**
-  *sellername
-  *mobile
-  *mail
-  *password
-  *businessDetails
-  *bankDetails
-  *address(OneToOne)
-  *GSTIN(Tax Identification Number)
-  *role
-  *accountStatus
+  -sellername
+  -mobile
+  -mail
+  -password
+  -businessDetails
+  -bankDetails
+  -address(OneToOne)
+  -GSTIN(Tax Identification Number)
+  -role
+  -accountStatus
   
 -**Address**
   *name
