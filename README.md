@@ -1,7 +1,7 @@
 🛒 Ecommerce Multivendor - Entity Yapısı
 Bu yapı, çok satıcılı bir e-ticaret platformunun temel veri modelini tanımlar.
 
-👤 User (Müşteri)
+👤 **User (Müşteri)**
 
 fullname: Ad Soyad
 
@@ -17,7 +17,7 @@ address: Kullanıcının adresleri (OneToMany)
 
 usedCoupons: Kullanıcının kullandığı kuponlar (ManyToMany)
 
-🧑‍💼 Seller (Satıcı)
+🧑‍💼 **Seller (Satıcı)**
 
 sellername: Satıcı adı
 
@@ -39,7 +39,7 @@ role: Rol bilgisi
 
 accountStatus: Hesap durumu (örneğin: aktif, askıda vb.)
 
-🏠 Address (Adres)
+**🏠 Address (Adres)**
 
 name: Alıcı adı
 
@@ -55,7 +55,7 @@ pinCode: Posta kodu
 
 mobile: Telefon numarası
 
-📦 Product (Ürün)
+📦 **Product (Ürün)**
 
 title: Ürün başlığı
 
@@ -85,7 +85,7 @@ seller: Satıcı (ManyToOne)
 
 reviews: Yorumlar (OneToMany, Liste)
 
-🗂️ Category (Kategori)
+🗂️ **Category (Kategori)**
 
 name: Kategori adı
 
@@ -95,7 +95,7 @@ parentCategory: Üst kategori (ManyToOne)
 
 level: Seviye (Ana kategori veya Alt kategori)
 
-🎟️ Coupon (Kupon)
+🎟️ **Coupon (Kupon)**
 
 code: Kupon kodu
 
@@ -111,7 +111,7 @@ isActive: Kupon aktif mi? (Varsayılan: true)
 
 usedByUsers: Kuponu kullanan kullanıcılar (ManyToMany, mappedBy = "usedCoupons")
 
-📦 Order (Sipariş)
+📦 **Order (Sipariş)**
 
 orderId: Sipariş numarası
 
@@ -139,7 +139,7 @@ orderDate: Sipariş tarihi
 
 deliverDate: Teslim tarihi
 
-💳 Transaction (İşlem)
+💳 **Transaction (İşlem)**
 
 customer: İşlemi yapan kullanıcı (ManyToOne)
 
@@ -147,7 +147,7 @@ order: İlgili sipariş (OneToOne)
 
 seller: Ürünü sağlayan satıcı (ManyToOne)
 
-❤️ Wish List (Favoriler)
+❤️ **Wish List (Favoriler)**
 user: Favori listesi sahibi (OneToOne)
 
 products: Favorilere eklenen ürünler (ManyToMany)
