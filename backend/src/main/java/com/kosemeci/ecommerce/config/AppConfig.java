@@ -30,6 +30,7 @@ public class AppConfig {
         .sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(authorize->authorize
         .requestMatchers("/api/**").authenticated()
         .requestMatchers("/api/products/*/reviews").permitAll()
+        .requestMatchers("/auth/**").permitAll()
         ).addFilterBefore(new JwtTokenValidator(),BasicAuthenticationFilter.class)
         .csrf(csrf->csrf.disable())
         .cors(cors->cors.configurationSource(configurationSource()));
@@ -51,6 +52,7 @@ public class AppConfig {
     }
 
     @Bean
+    @SuppressWarnings("unused")
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
