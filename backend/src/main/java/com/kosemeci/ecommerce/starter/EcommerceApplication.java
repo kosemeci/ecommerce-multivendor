@@ -1,4 +1,4 @@
-package com.kosemeci.ecommerce;
+package com.kosemeci.ecommerce.starter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
