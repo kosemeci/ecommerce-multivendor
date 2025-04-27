@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kosemeci.ecommerce.domain.USER_ROLE;
 import com.kosemeci.ecommerce.entity.VerificationCode;
+import com.kosemeci.ecommerce.request.LoginRequest;
 import com.kosemeci.ecommerce.response.ApiResponse;
 import com.kosemeci.ecommerce.response.AuthResponse;
 import com.kosemeci.ecommerce.response.SignupRequest;
@@ -41,4 +42,12 @@ public class AuthController {
         response.setMessage("otp send successfully");
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> loginHandler(@RequestBody LoginRequest request) throws Exception{
+
+        AuthResponse authResponse = authService.login(request);
+        return ResponseEntity.ok(authResponse);
+    }
+
 }

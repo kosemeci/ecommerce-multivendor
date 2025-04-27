@@ -1,13 +1,16 @@
 package com.kosemeci.ecommerce.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ import com.kosemeci.ecommerce.entity.VerificationCode;
 import com.kosemeci.ecommerce.repository.CartRepository;
 import com.kosemeci.ecommerce.repository.UserRepository;
 import com.kosemeci.ecommerce.repository.VerificationCodeRepository;
+import com.kosemeci.ecommerce.request.LoginRequest;
+import com.kosemeci.ecommerce.response.AuthResponse;
 import com.kosemeci.ecommerce.response.SignupRequest;
 import com.kosemeci.ecommerce.service.AuthService;
 import com.kosemeci.ecommerce.service.EmailService;
@@ -37,14 +42,19 @@ public class AuthServiceImpl implements AuthService{
     private final JwtProvider jwtProvider;
     private final VerificationCodeRepository verificationCodeRepository;
     private final EmailService emailService; 
+    private final CustomUserServiceImpl customUserService;
 
     @Override
-    public String createUser(SignupRequest request) throws Exception {
+    public String createUser(SignupRequest request){
 
         VerificationCode verificationCode = verificationCodeRepository.findByEmail(request.getEmail());
 
         if(verificationCode==null || !verificationCode.getOtp().equals(request.getOtp())){
-            throw new Exception("wrong otp");
+            try {
+                throw new Exception("wrong otp");
+            } catch (Exception ex) {
+                System.out.println("boku yedik 3");
+            }
         }
         
         User user = userRepository.findByEmail(request.getEmail());
@@ -81,7 +91,6 @@ public class AuthServiceImpl implements AuthService{
                     throw new Exception("User not exist with provided email");
                 } catch (Exception ex) {
                     System.out.println("boku yedik 2");
-
                 }
             }
         }
@@ -104,6 +113,43 @@ public class AuthServiceImpl implements AuthService{
         } catch (MessagingException e) {
             System.out.println("boku yedik 1");
         }
+    }
+
+    @Override
+    public AuthResponse login(LoginRequest request) {
+        
+        String username= request.getEmail();
+        String otp = request.getOtp();
+
+        Authentication authentication = authenticate(username,otp);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtProvider.generateToken(authentication);
+        AuthResponse response = new AuthResponse();
+        response.setJwt(token);
+        response.setMessage("Login Success.");
+
+        Collection <? extends  GrantedAuthority> authorities = authentication.getAuthorities();
+        String roleName = authorities.isEmpty() ? null : authorities.iterator().next().getAuthority();
+        response.setRole(USER_ROLE.valueOf(roleName));
+        return response;
+    }
+
+    private Authentication authenticate(String username, String otp) {
+        UserDetails userDetails =  customUserService.loadUserByUsername(username);
+        if(userDetails==null){
+            throw new BadCredentialsException("invalid username or password");
+        }
+
+        VerificationCode verificationCode = verificationCodeRepository.findByEmail(username);
+        if(verificationCode==null || !verificationCode.getOtp().equals(otp)){
+            throw new BadCredentialsException("invalid code");
+        }
+        return new UsernamePasswordAuthenticationToken(
+            userDetails,
+            null,
+            userDetails.getAuthorities()
+        );
     }
 
 }
