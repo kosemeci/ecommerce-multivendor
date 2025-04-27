@@ -4,5 +4,6 @@ import com.kosemeci.ecommerce.response.SignupRequest;
 
 public interface  AuthService {
     
-    String createUser(SignupRequest request);
+    void sendLoginOtp(String email);
+    String createUser(SignupRequest request) throws Exception;
 }
