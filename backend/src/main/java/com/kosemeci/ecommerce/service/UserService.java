@@ -4,6 +4,7 @@ import com.kosemeci.ecommerce.entity.User;
 
 public interface UserService {
     
-    public User findUserByJwt(String token);
+    User findUserByJwt(String token);
+    User findUserByEmail(String email);
     
 }
