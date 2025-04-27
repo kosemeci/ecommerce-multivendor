@@ -24,6 +24,7 @@ import com.kosemeci.ecommerce.service.AuthService;
 import com.kosemeci.ecommerce.service.EmailService;
 import com.kosemeci.ecommerce.utils.OtpUtil;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -69,14 +70,19 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void sendLoginOtp(String email) throws Exception {
+    public void sendLoginOtp(String email) {
         
         String SIGNING_PREFIX = "signin_";
         if(email.startsWith(SIGNING_PREFIX)){
             email = email.substring(SIGNING_PREFIX.length());
             User user = userRepository.findByEmail(email);
             if(user==null){
-                throw new Exception("User not exist with provided email");
+                try {
+                    throw new Exception("User not exist with provided email");
+                } catch (Exception ex) {
+                    System.out.println("boku yedik 2");
+
+                }
             }
         }
 
@@ -93,7 +99,11 @@ public class AuthServiceImpl implements AuthService{
 
         String subject = "Signup/Login OTP";
         String text = "Aramıza katılmak için otp kodu ile doğrulamanı gerçekleştir";
-        emailService.sendVerificationOtpEmail(email, otp, subject, text);
+        try {
+            emailService.sendVerificationOtpEmail(email, otp, subject, text);
+        } catch (MessagingException e) {
+            System.out.println("boku yedik 1");
+        }
     }
 
 }

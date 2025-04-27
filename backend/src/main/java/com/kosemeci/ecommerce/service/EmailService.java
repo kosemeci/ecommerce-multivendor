@@ -20,7 +20,7 @@ public class EmailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,"utf-8");
             mimeMessageHelper.setSubject(subject);
-            mimeMessageHelper.setText(text);
+            mimeMessageHelper.setText(text+ " " + otp);
             mimeMessageHelper.setTo(userEmail);
             javaMailSender.send(mimeMessage);
             
