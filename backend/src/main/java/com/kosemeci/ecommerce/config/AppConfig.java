@@ -30,6 +30,7 @@ public class AppConfig {
         .requestMatchers("/api/**").authenticated()
         .requestMatchers("/api/products/*/reviews").permitAll()
         .requestMatchers("/auth/**").permitAll()
+        .anyRequest().authenticated()
         ).addFilterBefore(new JwtTokenValidator(),BasicAuthenticationFilter.class)
         .csrf(csrf->csrf.disable())
         .cors(cors->cors.configurationSource(configurationSource()));
