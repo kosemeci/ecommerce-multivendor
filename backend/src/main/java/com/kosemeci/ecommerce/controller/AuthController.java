@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kosemeci.ecommerce.domain.USER_ROLE;
-import com.kosemeci.ecommerce.entity.VerificationCode;
+import com.kosemeci.ecommerce.request.LoginOtpRequest;
 import com.kosemeci.ecommerce.request.LoginRequest;
 import com.kosemeci.ecommerce.response.ApiResponse;
 import com.kosemeci.ecommerce.response.AuthResponse;
@@ -24,7 +24,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUserHandle(@RequestBody SignupRequest request) throws Exception{
+    public ResponseEntity<AuthResponse> createUser(@RequestBody SignupRequest request) throws Exception{
 
         String jwt = authService.createUser(request);
         AuthResponse response = new AuthResponse();
@@ -35,9 +35,9 @@ public class AuthController {
     }
 
     @PostMapping("/send/otp")
-    public ResponseEntity<ApiResponse> sendOtpHandle(@RequestBody VerificationCode request) throws Exception{
+    public ResponseEntity<ApiResponse> sendOtpHandle(@RequestBody LoginOtpRequest request) throws Exception{
 
-        authService.sendLoginOtp(request.getEmail());
+        authService.sendLoginOtp(request.getEmail(),request.getRole());
         ApiResponse response = new ApiResponse();
         response.setMessage("otp send successfully");
         return ResponseEntity.ok(response);

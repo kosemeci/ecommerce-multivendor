@@ -32,7 +32,9 @@ public class Seller {
 
     @Column(nullable=false,unique=true)
     private String email;
+
     private String password;
+    
     private boolean isEmailVerified;
 
     @Embedded

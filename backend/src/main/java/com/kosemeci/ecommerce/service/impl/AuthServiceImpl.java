@@ -17,9 +17,11 @@ import org.springframework.stereotype.Service;
 import com.kosemeci.ecommerce.config.JwtProvider;
 import com.kosemeci.ecommerce.domain.USER_ROLE;
 import com.kosemeci.ecommerce.entity.Cart;
+import com.kosemeci.ecommerce.entity.Seller;
 import com.kosemeci.ecommerce.entity.User;
 import com.kosemeci.ecommerce.entity.VerificationCode;
 import com.kosemeci.ecommerce.repository.CartRepository;
+import com.kosemeci.ecommerce.repository.SellerRepository;
 import com.kosemeci.ecommerce.repository.UserRepository;
 import com.kosemeci.ecommerce.repository.VerificationCodeRepository;
 import com.kosemeci.ecommerce.request.LoginRequest;
@@ -43,6 +45,7 @@ public class AuthServiceImpl implements AuthService{
     private final VerificationCodeRepository verificationCodeRepository;
     private final EmailService emailService; 
     private final CustomUserServiceImpl customUserService;
+    private final SellerRepository sellerRepository;
 
     @Override
     public String createUser(SignupRequest request){
@@ -80,17 +83,23 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void sendLoginOtp(String email) {
+    public void sendLoginOtp(String email,USER_ROLE role) throws Exception {
         
-        String SIGNING_PREFIX = "signin_";
+        String SIGNING_PREFIX = "signing_";
         if(email.startsWith(SIGNING_PREFIX)){
             email = email.substring(SIGNING_PREFIX.length());
-            User user = userRepository.findByEmail(email);
-            if(user==null){
-                try {
-                    throw new Exception("User not exist with provided email");
-                } catch (Exception ex) {
-                    System.out.println("boku yedik 2");
+
+            if(role.equals(USER_ROLE.ROLE_SELLER)){
+                Seller seller = sellerRepository.findByEmail(email);
+                if(seller==null){
+                    throw new Exception("seller not found");
+                }
+ 
+            }
+            else{
+                User user = userRepository.findByEmail(email);
+                if(user==null){
+                    throw new Exception("user not found");
                 }
             }
         }
