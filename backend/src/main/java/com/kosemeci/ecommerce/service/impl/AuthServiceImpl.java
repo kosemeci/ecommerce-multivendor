@@ -120,7 +120,7 @@ public class AuthServiceImpl implements AuthService{
         try {
             emailService.sendVerificationOtpEmail(email, otp, subject, text);
         } catch (MessagingException e) {
-            System.out.println("boku yedik 1");
+            System.out.println(e.getMessage());
         }
     }
 
