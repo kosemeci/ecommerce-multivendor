@@ -26,7 +26,7 @@ public class SellerServiceImpl implements SellerService{
     private final AddressRepository addressRepository;
 
     @Override
-    public Seller getSellerProfile(String token) {
+    public Seller getSellerByToken(String token) {
 
         String email = jwtProvider.getEmailFromJwtToken(token);
         return getSellerByEmail(email);
@@ -94,10 +94,11 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public void deleteSeller(Long id) throws Exception {
+    public String deleteSeller(Long id) throws Exception {
 
         Seller seller = getSellerById(id);
         sellerRepository.delete(seller);
+        return "User delete successfully.";
     }
 
     @Override

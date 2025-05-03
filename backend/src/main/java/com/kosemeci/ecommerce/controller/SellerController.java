@@ -2,7 +2,9 @@ package com.kosemeci.ecommerce.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,11 +38,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/seller")
 public class SellerController {
 
-    private SellerService sellerService;
-    private VerificationCodeRepository verificationCodeRepository;
-    private AuthService authService;
-    private EmailService emailService;
-    private JwtProvider jwtProvider;
+    private final SellerService sellerService;
+    private final VerificationCodeRepository verificationCodeRepository;
+    private final AuthService authService;
+    private final EmailService emailService;
+    private final JwtProvider jwtProvider;
     
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
@@ -68,7 +70,7 @@ public class SellerController {
         return ResponseEntity.ok(seller);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/create")
     public ResponseEntity<Seller> createSeller (@RequestBody Seller seller) throws MessagingException {
         Seller savedSeller = sellerService.createSeller(seller);
 
@@ -86,7 +88,7 @@ public class SellerController {
         emailService.sendVerificationOtpEmail(seller.getEmail(),verificationCode.getOtp(),subject,text + frontend_url);
 
         
-        return ResponseEntity.ok(savedSeller);
+        return new ResponseEntity<>(savedSeller,HttpStatus.CREATED);
     }
     
     @GetMapping("/{id}")
@@ -97,7 +99,7 @@ public class SellerController {
     }
     
     @GetMapping("/profile")
-    public ResponseEntity<Seller> getSellerByJwt(@RequestHeader String jwt) {
+    public ResponseEntity<Seller> getSellerByJwt(@RequestHeader("Authorization") String jwt) {
 
         String email = jwtProvider.getEmailFromJwtToken(jwt);
         Seller seller = sellerService.getSellerByEmail(email);
@@ -111,5 +113,18 @@ public class SellerController {
         return ResponseEntity.ok(sellerList);
     }
     
+    @PatchMapping
+    public ResponseEntity<Seller> updateSeller(@RequestHeader("Authorization") String jwt, @RequestBody Seller seller) throws Exception{
+        Seller profileSeller = sellerService.getSellerByToken(jwt);
+        Seller updatedSeler = sellerService.updateSeller(profileSeller.getId(), seller);
+        return ResponseEntity.ok(updatedSeler);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSeller (@PathVariable Long id) throws Exception{
+        String response = sellerService.deleteSeller(id);
+        return ResponseEntity.ok(response);
+    }   
     
+
 }
