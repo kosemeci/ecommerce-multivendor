@@ -9,6 +9,8 @@ import com.kosemeci.ecommerce.config.JwtProvider;
 import com.kosemeci.ecommerce.domain.AccountStatus;
 import com.kosemeci.ecommerce.domain.USER_ROLE;
 import com.kosemeci.ecommerce.entity.Address;
+import com.kosemeci.ecommerce.entity.BankDetails;
+import com.kosemeci.ecommerce.entity.BusinessDetails;
 import com.kosemeci.ecommerce.entity.Seller;
 import com.kosemeci.ecommerce.repository.AddressRepository;
 import com.kosemeci.ecommerce.repository.SellerRepository;
@@ -85,12 +87,78 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller updateSeller(Long id, Seller seller) throws Exception {
+    public Seller updateSeller(Long id, Seller updatedData) throws Exception {
 
         Seller existingSeller = getSellerById(id);
 
-        //null değilse diye atamalar yapılacak1 6.00.00
-        return existingSeller;
+        // Temel alanlar
+        if (updatedData.getSellerName() != null)
+            existingSeller.setSellerName(updatedData.getSellerName());
+
+        if (updatedData.getMobile() != null)
+            existingSeller.setMobile(updatedData.getMobile());
+
+        if (updatedData.getPassword() != null)
+            existingSeller.setPassword(updatedData.getPassword());
+
+        if (updatedData.getGSTIN() != null)
+            existingSeller.setGSTIN(updatedData.getGSTIN());
+
+        // BusinessDetails güncelleme
+        if (updatedData.getBusinessDetails() != null) {
+            BusinessDetails bd = updatedData.getBusinessDetails();
+            BusinessDetails existingBD = existingSeller.getBusinessDetails();
+
+            if (bd.getBusinessName() != null)
+                existingBD.setBusinessName(bd.getBusinessName());
+            if (bd.getBusinessMail() != null)
+                existingBD.setBusinessMail(bd.getBusinessMail());
+            if (bd.getBusinessMobile() != null)
+                existingBD.setBusinessMobile(bd.getBusinessMobile());
+            if (bd.getBusinessAddress() != null)
+                existingBD.setBusinessAddress(bd.getBusinessAddress());
+            if (bd.getLogo() != null)
+                existingBD.setLogo(bd.getLogo());
+            if (bd.getBanner() != null)
+                existingBD.setBanner(bd.getBanner());
+        }
+
+        // BankDetails güncelleme
+        if (updatedData.getBankDetails() != null) {
+            BankDetails bd = updatedData.getBankDetails();
+            BankDetails existingBank = existingSeller.getBankDetails();
+
+            if (bd.getAccountNumber() != null)
+                existingBank.setAccountNumber(bd.getAccountNumber());
+            if (bd.getAccountHolderName() != null)
+                existingBank.setAccountHolderName(bd.getAccountHolderName());
+            if (bd.getIfscCode() != null)
+                existingBank.setIfscCode(bd.getIfscCode());
+        }
+
+        // PickUpAddress güncelleme
+        if (updatedData.getPickUpAddress() != null) {
+            Address newAddr = updatedData.getPickUpAddress();
+            Address existingAddr = existingSeller.getPickUpAddress();
+
+            if (newAddr.getName() != null)
+                existingAddr.setName(newAddr.getName());
+            if (newAddr.getLocality() != null)
+                existingAddr.setLocality(newAddr.getLocality());
+            if (newAddr.getAddress() != null)
+                existingAddr.setAddress(newAddr.getAddress());
+            if (newAddr.getCity() != null)
+                existingAddr.setCity(newAddr.getCity());
+            if (newAddr.getState() != null)
+                existingAddr.setState(newAddr.getState());
+            if (newAddr.getPinCode() != null)
+                existingAddr.setPinCode(newAddr.getPinCode());
+            if (newAddr.getMobile() != null)
+                existingAddr.setMobile(newAddr.getMobile());
+        }
+
+        Seller updatedSeller = sellerRepository.save(existingSeller);
+        return updatedSeller;
     }
 
     @Override

@@ -116,8 +116,9 @@ public class SellerController {
     @PatchMapping
     public ResponseEntity<Seller> updateSeller(@RequestHeader("Authorization") String jwt, @RequestBody Seller seller) throws Exception{
         Seller profileSeller = sellerService.getSellerByToken(jwt);
-        Seller updatedSeler = sellerService.updateSeller(profileSeller.getId(), seller);
-        return ResponseEntity.ok(updatedSeler);
+        Seller updatedSeller = sellerService.updateSeller(profileSeller.getId(), seller);
+
+        return ResponseEntity.ok(updatedSeller);
     }
 
     @DeleteMapping("/{id}")
