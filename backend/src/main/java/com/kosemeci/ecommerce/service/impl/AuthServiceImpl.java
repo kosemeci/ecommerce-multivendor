@@ -150,7 +150,7 @@ public class AuthServiceImpl implements AuthService{
             throw new BadCredentialsException("invalid username or password");
         }
 
-        VerificationCode verificationCode = verificationCodeRepository.findByEmail(username);
+        VerificationCode verificationCode = verificationCodeRepository.findByEmail(userDetails.getUsername());
         if(verificationCode==null || !verificationCode.getOtp().equals(otp)){
             throw new BadCredentialsException("invalid code");
         }
