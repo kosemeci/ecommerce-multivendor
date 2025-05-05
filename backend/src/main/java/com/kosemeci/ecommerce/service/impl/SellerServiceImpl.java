@@ -12,6 +12,7 @@ import com.kosemeci.ecommerce.entity.Address;
 import com.kosemeci.ecommerce.entity.BankDetails;
 import com.kosemeci.ecommerce.entity.BusinessDetails;
 import com.kosemeci.ecommerce.entity.Seller;
+import com.kosemeci.ecommerce.exception.SellerException;
 import com.kosemeci.ecommerce.repository.AddressRepository;
 import com.kosemeci.ecommerce.repository.SellerRepository;
 import com.kosemeci.ecommerce.service.SellerService;
@@ -62,8 +63,8 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller getSellerById(Long id) throws Exception {
-        return sellerRepository.findById(id).orElseThrow(()->new Exception("dont found with this id" + id));
+    public Seller getSellerById(Long id) throws SellerException {
+        return sellerRepository.findById(id).orElseThrow(()->new SellerException("dont found with this id" + id));
     }
 
     @Override
@@ -87,7 +88,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller updateSeller(Long id, Seller updatedData) throws Exception {
+    public Seller updateSeller(Long id, Seller updatedData) throws SellerException {
 
         Seller existingSeller = getSellerById(id);
 
@@ -162,7 +163,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public String deleteSeller(Long id) throws Exception {
+    public String deleteSeller(Long id) throws SellerException {
 
         Seller seller = getSellerById(id);
         sellerRepository.delete(seller);
@@ -179,12 +180,12 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws Exception {
+    public Seller updateSellerAccountStatus(Long sellerId, AccountStatus status) throws SellerException {
 
         Seller seller = getSellerById(sellerId);
         seller.setAccountStatus(status);
         
-        return sellerRepository.save(seller);    }
-
+        return sellerRepository.save(seller);    
+    }
     
 }
