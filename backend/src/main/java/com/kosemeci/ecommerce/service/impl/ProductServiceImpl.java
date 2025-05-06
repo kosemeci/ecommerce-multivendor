@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kosemeci.ecommerce.entity.Category;
 import com.kosemeci.ecommerce.entity.Product;
 import com.kosemeci.ecommerce.entity.Seller;
+import com.kosemeci.ecommerce.exception.ProductException;
 import com.kosemeci.ecommerce.repository.CategoryRepository;
 import com.kosemeci.ecommerce.repository.ProductRepository;
 import com.kosemeci.ecommerce.request.CreateProductRequest;
@@ -71,7 +72,7 @@ public class ProductServiceImpl implements  ProductService{
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteProduct(Long id) throws ProductException {
         
         Product product = findProductById(id);
         productRepository.delete(product);
@@ -79,7 +80,7 @@ public class ProductServiceImpl implements  ProductService{
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) {
+    public Product updateProduct(Long productId, Product product) throws ProductException {
         
         findProductById(productId);
         product.setId(productId);
@@ -87,9 +88,9 @@ public class ProductServiceImpl implements  ProductService{
     }
 
     @Override
-    public Product findProductById(Long productId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findProductById'");
+    public Product findProductById(Long productId) throws ProductException {
+        
+        return productRepository.findById(productId).orElseThrow(()-> new ProductException("product not found with id "+ productId));
     }
 
     @Override
