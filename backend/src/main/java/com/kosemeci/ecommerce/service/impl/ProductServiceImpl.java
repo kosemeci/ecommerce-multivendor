@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.kosemeci.ecommerce.entity.Product;
 import com.kosemeci.ecommerce.entity.Seller;
+import com.kosemeci.ecommerce.repository.CategoryRepository;
+import com.kosemeci.ecommerce.repository.ProductRepository;
 import com.kosemeci.ecommerce.request.CreateProductRequest;
 import com.kosemeci.ecommerce.service.ProductService;
 
@@ -14,7 +16,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements  ProductService{@Override
+public class ProductServiceImpl implements  ProductService{
+    
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    
+    @Override
     public Product createProduct(CreateProductRequest request, Seller seller) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createProduct'");
