@@ -37,7 +37,7 @@ public class SellerProductController {
     private final ProductService productService;
     private final SellerService sellerService;
 
-    @GetMapping("path")
+    @GetMapping
     public ResponseEntity<List<Product>> getProductBySellerId(
             @RequestHeader("Authorization") String jwt) throws SellerException {
 
@@ -47,7 +47,7 @@ public class SellerProductController {
         return ResponseEntity.ok(products);
     }
 
-    @PostMapping("path")
+    @PostMapping
     public ResponseEntity<Product> createProduct(
             @RequestBody CreateProductRequest request,
             @RequestHeader("Authorization") String jwt) throws SellerException {
