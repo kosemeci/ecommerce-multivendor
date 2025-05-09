@@ -31,7 +31,7 @@ import com.kosemeci.ecommerce.request.CreateProductRequest;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/sellers")
+@RequestMapping("/api/sellers/products")
 public class SellerProductController {
     
     private final ProductService productService;
