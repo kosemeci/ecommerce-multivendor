@@ -101,9 +101,8 @@ public class ProductServiceImpl implements  ProductService{
     }
 
     @Override
-    public List<Product> searchProducts() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'searchProducts'");
+    public List<Product> searchProducts(String query) {
+        return productRepository.searchProduct(query);
     }
 
     @Override
