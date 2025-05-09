@@ -29,7 +29,7 @@ public class SellerServiceImpl implements SellerService{
     private final AddressRepository addressRepository;
 
     @Override
-    public Seller getSellerByToken(String token) {
+    public Seller getSellerByToken(String token) throws SellerException {
 
         String email = jwtProvider.getEmailFromJwtToken(token);
         return getSellerByEmail(email);
@@ -68,16 +68,12 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller getSellerByEmail(String email) {
+    public Seller getSellerByEmail(String email) throws SellerException {
 
         Seller seller = sellerRepository.findByEmail(email);
-        try {
             if(seller==null){
-                throw new Exception("Not found with email - " + email);
+                throw new SellerException("Not found with email - " + email);
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         return seller;
     }
 
@@ -171,7 +167,7 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public Seller verifyEmail(String email, String otp) {
+    public Seller verifyEmail(String email, String otp) throws SellerException {
 
         Seller seller = getSellerByEmail(email);
         seller.setEmailVerified(true);

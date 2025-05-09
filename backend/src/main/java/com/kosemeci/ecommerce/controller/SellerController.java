@@ -17,6 +17,7 @@ import com.kosemeci.ecommerce.config.JwtProvider;
 import com.kosemeci.ecommerce.domain.AccountStatus;
 import com.kosemeci.ecommerce.entity.Seller;
 import com.kosemeci.ecommerce.entity.VerificationCode;
+import com.kosemeci.ecommerce.exception.SellerException;
 import com.kosemeci.ecommerce.repository.VerificationCodeRepository;
 import com.kosemeci.ecommerce.request.LoginRequest;
 import com.kosemeci.ecommerce.response.AuthResponse;
@@ -99,7 +100,7 @@ public class SellerController {
     }
     
     @GetMapping("/profile")
-    public ResponseEntity<Seller> getSellerByJwt(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<Seller> getSellerByJwt(@RequestHeader("Authorization") String jwt) throws SellerException {
 
         String email = jwtProvider.getEmailFromJwtToken(jwt);
         Seller seller = sellerService.getSellerByEmail(email);
