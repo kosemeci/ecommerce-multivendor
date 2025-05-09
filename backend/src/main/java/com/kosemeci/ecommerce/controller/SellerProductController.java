@@ -54,7 +54,6 @@ public class SellerProductController {
         
         Seller seller = sellerService.getSellerByToken(jwt);   
         Product product = productService.createProduct(request, seller);
-
         return new ResponseEntity<>(product,HttpStatus.CREATED);    
     }
 

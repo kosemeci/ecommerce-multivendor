@@ -40,7 +40,7 @@ public class ProductServiceImpl implements  ProductService{
             Category category = new Category();
             category.setCategoryId(request.getCategory());
             category.setLevel(1);
-            category1 = categoryRepository.save(category1);
+            category1 = categoryRepository.save(category);
         }
         Category category2 = categoryRepository.findByCategoryId(request.getCategory2());
 
@@ -49,16 +49,16 @@ public class ProductServiceImpl implements  ProductService{
             category.setCategoryId(request.getCategory2());
             category.setLevel(2);
             category.setParentCategory(category1);
-            category2 = categoryRepository.save(category2);
+            category2 = categoryRepository.save(category);
         }
         Category category3 = categoryRepository.findByCategoryId(request.getCategory3());
 
-        if(category2 == null){
+        if(category3 == null){
             Category category = new Category();
             category.setCategoryId(request.getCategory3());
             category.setLevel(3);
             category.setParentCategory(category2);
-            category3 = categoryRepository.save(category3);
+            category3 = categoryRepository.save(category);
         }
 
         int discountPercentage = calculateDiscountPercentage(request.getMrpPrice(),request.getSellingPrice());
