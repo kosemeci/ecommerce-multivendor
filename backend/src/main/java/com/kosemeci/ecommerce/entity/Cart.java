@@ -12,14 +12,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

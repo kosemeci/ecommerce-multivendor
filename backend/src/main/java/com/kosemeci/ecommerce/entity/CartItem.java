@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"cart"})
 public class CartItem {
 
     @Id
