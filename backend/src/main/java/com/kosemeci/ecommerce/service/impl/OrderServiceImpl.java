@@ -94,33 +94,44 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order findOrderById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findOrderById'");
+    public Order findOrderById(Long id) throws Exception {
+        return orderRepository.findById(id).orElseThrow(()->
+                new Exception("Dont found order with id"+id.toString()));
     }
 
     @Override
-    public List<Order> usersOrderHistory(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'usersOrderHistory'");
+    public List<Order> usersOrderHistory(Long userId) {        
+        return orderRepository.findByUserId(userId);
     }
 
     @Override
     public List<Order> sellersOrder(Long sellerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sellersOrder'");
+        return orderRepository.findBySellerId(sellerId);
     }
 
     @Override
-    public Order updateOrderStatus(Long orderId, OrderStatus orderStatus) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateOrderStatus'");
+    public Order updateOrderStatus(Long orderId, OrderStatus orderStatus) throws Exception {
+        
+        Order order = findOrderById(orderId);
+        order.setOrderStatus(orderStatus);
+        return orderRepository.save(order);
     }
 
     @Override
-    public Order cancelOrder(Long orderId, User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelOrder'");
+    public Order cancelOrder(Long orderId, User user) throws Exception {
+        
+        Order order = findOrderById(orderId);
+        if(!user.getId().equals(order.getUser().getId())){
+            throw new Exception("you dont have acces to this order.");
+        }
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public OrderItem findById(Long id) throws Exception{
+        return orderItemRepository.findById(id).orElseThrow(()->
+                new Exception("Dont found .."));
     }
     
 }
