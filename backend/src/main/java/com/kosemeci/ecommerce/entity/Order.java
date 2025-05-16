@@ -47,6 +47,8 @@ public class Order {
     private PaymentDetails paymentDetails= new PaymentDetails();
 
     private double totalMrpPrice;
+    private double totalSellingPrice;
+
     private Integer discount;
     private OrderStatus orderStatus;
     private int totalItem;
