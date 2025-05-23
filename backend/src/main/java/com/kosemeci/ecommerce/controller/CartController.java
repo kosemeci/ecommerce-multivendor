@@ -15,7 +15,6 @@ import com.kosemeci.ecommerce.entity.Cart;
 import com.kosemeci.ecommerce.entity.CartItem;
 import com.kosemeci.ecommerce.entity.Product;
 import com.kosemeci.ecommerce.entity.User;
-import com.kosemeci.ecommerce.exception.ProductException;
 import com.kosemeci.ecommerce.request.AddItemRequest;
 import com.kosemeci.ecommerce.response.ApiResponse;
 import com.kosemeci.ecommerce.service.CartItemService;
@@ -39,7 +38,7 @@ public class CartController {
 
     @GetMapping()
     public ResponseEntity<Cart> findUserCartHandler(
-            @RequestHeader("Authorization") String jwt){
+            @RequestHeader("Authorization") String jwt) throws Exception{
         
         User user = userService.findUserByJwt(jwt);
         Cart cart = cartService.findUserCart(user);
@@ -50,7 +49,7 @@ public class CartController {
     @PutMapping("/add")
     public ResponseEntity<CartItem> addItemToCart(
             @RequestHeader("Authorization") String jwt,
-            @RequestBody AddItemRequest request) throws ProductException {
+            @RequestBody AddItemRequest request) throws Exception {
                 
         User user = userService.findUserByJwt(jwt);
         Product product = productService.findProductById(request.getProductId());

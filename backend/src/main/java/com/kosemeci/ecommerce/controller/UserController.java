@@ -17,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/user/profile")
-    public ResponseEntity<User> createUserHandle(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<User> createUserHandle(@RequestHeader("Authorization") String token) throws Exception {
 
         User user = userService.findUserByJwt(token);
         
