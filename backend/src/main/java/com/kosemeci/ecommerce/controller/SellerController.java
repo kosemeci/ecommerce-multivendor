@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kosemeci.ecommerce.config.JwtProvider;
 import com.kosemeci.ecommerce.domain.AccountStatus;
 import com.kosemeci.ecommerce.entity.Seller;
+import com.kosemeci.ecommerce.entity.SellerReport;
 import com.kosemeci.ecommerce.entity.VerificationCode;
 import com.kosemeci.ecommerce.exception.SellerException;
 import com.kosemeci.ecommerce.repository.VerificationCodeRepository;
@@ -23,14 +26,12 @@ import com.kosemeci.ecommerce.request.LoginRequest;
 import com.kosemeci.ecommerce.response.AuthResponse;
 import com.kosemeci.ecommerce.service.AuthService;
 import com.kosemeci.ecommerce.service.EmailService;
+import com.kosemeci.ecommerce.service.SellerReportService;
 import com.kosemeci.ecommerce.service.SellerService;
 import com.kosemeci.ecommerce.utils.OtpUtil;
 
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -44,6 +45,7 @@ public class SellerController {
     private final AuthService authService;
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
+    private final SellerReportService sellerReportService;
     
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
@@ -128,5 +130,13 @@ public class SellerController {
         return ResponseEntity.ok(response);
     }   
     
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt) throws SellerException {
+
+        Seller seller = sellerService.getSellerByToken(jwt);
+        SellerReport sellerReport = sellerReportService.getSellerReport(seller);
+
+        return ResponseEntity.ok(sellerReport);
+    }
 
 }

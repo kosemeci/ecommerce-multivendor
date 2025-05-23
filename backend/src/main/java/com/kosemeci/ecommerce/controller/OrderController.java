@@ -18,9 +18,13 @@ import com.kosemeci.ecommerce.domain.PaymentMethod;
 import com.kosemeci.ecommerce.entity.Address;
 import com.kosemeci.ecommerce.entity.Order;
 import com.kosemeci.ecommerce.entity.OrderItem;
+import com.kosemeci.ecommerce.entity.Seller;
+import com.kosemeci.ecommerce.entity.SellerReport;
 import com.kosemeci.ecommerce.entity.User;
 import com.kosemeci.ecommerce.response.PaymentLinkResponse;
 import com.kosemeci.ecommerce.service.OrderService;
+import com.kosemeci.ecommerce.service.SellerReportService;
+import com.kosemeci.ecommerce.service.SellerService;
 import com.kosemeci.ecommerce.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +39,8 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
     // private final CartService cartService;
-    // private final SellerService sellerService;
+    private final SellerService sellerService;
+    private final SellerReportService sellerReportService;
 
     @PostMapping()
     public ResponseEntity<PaymentLinkResponse> createOrder(
@@ -94,8 +99,12 @@ public class OrderController {
         User user = userService.findUserByJwt(token);
         Order order = orderService.cancelOrder(orderId, user);
 
-        // Seller seller = sellerService.getSellerById(order.getSellerId());
-        // SellerReport report = sellerReportService.getSellerReport(seller);  
+        Seller seller = sellerService.getSellerById(order.getSellerId());
+        SellerReport report = sellerReportService.getSellerReport(seller);  
+
+        report.setCanceledOrders(report.getCanceledOrders()+1);
+        report.setTotalRefunds((long) (report.getTotalRefunds()+order.getTotalSellingPrice()));
+        sellerReportService.updateSellerReport(report);
 
         return new ResponseEntity<>(order,HttpStatus.OK);
     }
